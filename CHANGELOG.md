@@ -1,124 +1,84 @@
 # CHANGELOG — Slow Burn OS
 
-All decisions and changes tracked in chronological order. This is the decision log for the product.
+## v0.3.0 — March 22, 2026 (Feature Lock)
+
+### Major architecture changes
+- **Dump split into three sub-tabs:** Tasks / Thoughts / Blockers. Different input types need different flows.
+- **Release tab added:** Flick-away mechanic for sorting thoughts. Hold (pull toward you) / Release (flick any direction) / Skip. Cards appear one at a time. Breathing metaphor: inhale on hold, exhale on release.
+- **Focus replaces The Week Ahead:** Weekly narrowing — pick your items from the "mine" pool. User-chosen number with science-backed recommendation of 3–5. Happens Sunday evening.
+- **Mirror gains daily mode:** Evening notification opens Mirror showing daily summary. Weekly mode shows full goal alignment + blocker-aware validation.
+- **Five tabs:** Today / Dump / Release / Focus / Mirror
+
+### New features
+- **Blockers system:** Users input what's affecting their capacity. Not tasks — context. App uses blockers to adjust Focus recommendations and validate at end of week.
+- **Task deadlines:** Every task expects a deadline. Enables urgency-based prioritisation alongside goal alignment.
+- **Goal tagging at dump time:** Dropdown shows user's goals + "Other" when entering a task.
+- **3-week stale task flag:** Tasks unselected for 3 weeks get surfaced at weekly check-in: "Keep or let it go?"
+- **Adaptive load in Focus:** Light week = stretch suggestion. Heavy week = lighten suggestion. Health blocker = permission to do less.
+- **Consistency recognition:** After 3+ weeks of completing Focus items, app acknowledges, checks energy, offers to increase load.
+- **Held thought conversion:** Next app open, gentle prompt: "Want to turn this into something you can do?" with "Just holding it is enough" option.
+- **Skipped thoughts:** Reappear for 2 more sessions, then archive quietly.
+- **Anxiety validation:** Immediate after heavy Release sessions (5+ items). Pattern-based over time for consistent heavy releasers.
+- **Daily pick on Today:** Each morning, choose from Focus list. Goal-aligned shown first. 10-minute nudge if nothing is goal-aligned.
+- **End-of-day Mirror:** Notification → daily summary → validation.
+- **Blocker-aware weekly validation:** Heavy week + delivered = resilience acknowledgement. Heavy week + didn't = compassion.
+
+### Design changes
+- **No emojis anywhere.** Designed icons only.
+- **Visual metaphor: Light.** Morning light filling the space. Dump starts dim, brightens as you unload. Release flicks away shadows. Focus narrows light. Mirror shows full even light.
+- **Animation reference:** Dola app onboarding (Mobbin). Quality bar: smooth transitions, animated metaphors, one idea per screen, generous spacing. All within light palette.
+- **Breathing mechanic in Release:** Inhale/exhale tied to hold/flick gestures. Cumulative visual transformation over a session.
+- **Visual relief in Dump:** Background shifts from warm/tense to cool/open as items are added.
+- **Flick mechanic:** Any direction = release (flies off with momentum). Pull toward = hold. Not left/right — the gesture IS the meaning.
+- **NN glow:** Sage green pulse on completion (0.6s).
+
+### Copy changes
+- **Onboarding ends before first dump:** "You're ready. Come back tomorrow morning and we'll start."
+- **First-time Today prompt:** "You're set up. When you're ready, head to Dump and get what's in your head out."
+- **Dump sub-tab descriptions:** "Things you could do" / "Things on your mind" / "Things affecting your week"
+- **Release post-session:** "You let go of [n] things that aren't yours to carry. That's not avoidance — that's choosing where your energy goes."
+- **Focus blocker prompt:** "Before you pick your focus — anything affecting your week?"
+- **Notification:** "End of day. Count what counted."
+- **Mirror heavy + delivered:** "You had [x] things working against you and still showed up. That's resilience."
+- **Mirror heavy + didn't:** "Tough week. The fact that you're here checking in matters."
+
+### Decisions
+- Hold / Release as swipe labels (emotional, tactile)
+- Tasks / Thoughts / Blockers as dump tab names (plain, clear)
+- Onboarding order: splash → tour → distinction → categories → goals → "come back tomorrow"
+- Blockers asked at start of week in Focus, not daily
+- "Not mine" items disappear immediately (the flick IS the letting go)
+- Check-in counter: cumulative days with at least 1 NN completed
+- Counter copy: "[n] days. You keep choosing yourself."
+- Reminder: user-chosen time, "End of day. Count what counted."
+- Two-step in-app delete confirmation (no window.confirm)
+- Light as visual metaphor (not flame, not water)
+- Flick mechanic to be prototyped in Stitch (both directions tested)
 
 ---
 
-## v0.1.0 — March 2026 (Initial Prototype)
+## v0.2.0 — March 22, 2026
 
-### Design Decisions
-
-- **Light palette chosen over dark**
-  - Options: Dark (candlelight notebook), Light (morning light), Both
-  - Decision: Light — warm linen background (#F6F2EC)
-  - Rationale: Dark felt too intense for the target audience. Light matches the "quiet space for self-definition" framing. Inspired by Headspace warmth and Calm spaciousness, but distinct from both.
-
-- **Sage green accent (#5A856B) chosen over gold (#B48C64)**
-  - Rationale: Gold carries ambition energy. Sage green says growth without pressure — alive and unhurried.
-
-- **Newsreader serif as primary font**
-  - Fallback: Georgia
-  - Meta font: DM Sans (sans-serif)
-  - Rationale: Serif typography signals intention and warmth. This is a reflective tool, not a SaaS dashboard.
-
-- **430px max-width, mobile-first**
-  - No desktop layout planned for V1.
-
-### Product Decisions
-
-- **Name: Slow Burn OS**
-  - Considered reconsidering given the gentler direction
-  - Decision: Keep it. "Slow burn" captures building back gradually — not intensity, but something that doesn't go out.
-  - Key insight: "This isn't for someone who can't get out of bed. It's for someone who hasn't stopped moving and hasn't asked themselves why or for whom in a long time."
-
-- **Onboarding phrase: "Count what counts"**
-  - Options considered: Track what's yours, Define the scorecard, Count what counts, Not everything counts, Measure yours
-  - Decision: "Count what counts" — rhythmic, memorable, distinct from Doerr's "Measure What Matters"
-  - Lives in: Onboarding Screen 1
-
-- **Subtitle: "Your life. Your metrics."**
-  - Original: "A personal operating system for people who do a lot — but not enough for themselves."
-  - Revised: "Your life. Your metrics."
-  - Rationale: Original was too on the nose — diagnosed the user before they'd said anything. New version is an invitation, not a category.
-
-- **Onboarding order: Categories first, then Goals**
-  - Rationale: Non-negotiables are about who you are today. Goals are about where you're going. Ground in the present before looking ahead. Also means the simplest setup step comes first.
-
-- **Interactive tour before setup**
-  - Replaces: Framing statement (Screen 2)
-  - Format: Four interactive slides showing each tab with mockup + one-line description
-  - Re-shows: Auto first time, "Need a refresher?" prompt visits 2–5, available in Settings after that
-  - Rationale: Users don't need more poetry after the hook. They need to know how to use the thing.
-
-### Architecture Decisions
-
-- **Four views instead of six**
-  - Original: Today, Capture, Retro, Board, Metrics, Badges
-  - Revised: Today, Dump, The Week Ahead, Mirror
-  - Rationale: Simplified. Every view has a clear job. Metrics and reflection collapse into Mirror. Board is implicit in the Dump → Week → Today flow.
-
-- **Goals + Tasks as parallel system to Non-negotiables**
-  - NNs: daily anchors tied to categories. About showing up.
-  - Goals: longer-term direction. Tasks get tagged to goals.
-  - These stay separate — different purposes, different time horizons.
-
-- **Task-goal tagging: strongly encouraged, not mandatory**
-  - Planning modal prominently shows goal tags with "Is this for a goal?" prompt
-  - Gentle nudge if nothing selected: "Tag it to a goal — or mark it as 'other.' This is how you see where your time goes."
-  - "Not for a goal" is explicit button
-  - But user can still plan without choosing — not blocked
-  - Rationale: Forcing the choice is the product's philosophy, but blocking the user creates friction that could cause abandonment.
-
-- **Goal alignment indicator on Today view**
-  - Progress bar: "3 of 5 for your goals"
-  - Factual, not judgemental.
-
-- **Multiple goals per task**
-  - Rationale: Reflects reality. "Write Substack post" could serve both a growth goal and a career goal.
-
-- **Estimated + actual duration: both optional**
-  - Rationale: Some users want deep tracking. Others just want to check things off. Both are valid. Duration data feeds the Mirror when available.
-
-- **Week starts Sunday**
-  - Rationale: Plan when your mind is quieter, not when Monday is already hitting you.
-
-- **3 goals recommended, max 5**
-  - Research basis: Behavioral research shows multiple goals competing for the same resources (time, attention, energy) decrease performance. Choice overload research shows too many options impair decision quality. 3 gives enough range without creating resource competition.
-
-- **SMART goals via guided prompts**
-  - Instead of: Single "SMART description" text field
-  - Three prompts: "What's the goal?" / "How will you know you've done it?" / "By when?"
-  - Gets Specific, Measurable, Time-bound without saying SMART. Human language, not corporate.
-
-- **Unfinished tasks roll back to Dump**
-  - End of week: planned tasks not completed return to dump status
-  - No shame UI, no "you missed 4 tasks" message
-  - Just back in the inbox, ready for next week
-
-- **localStorage namespace: sb3-**
-  - Distinguishes from original build (sb2-)
-  - Designed for clean migration to Supabase in V2
-
-### Tone of Voice
-
-- Zero completions: "These are yours. Not anyone else's."
-- Mid-progress: "[n] of [total]. Your pace, your terms."
-- All done: "You showed up for yourself today."
-- All NNs complete: "Small steps still move you forward."
-- Empty dump: "Your mind is clear. For now."
-- No tasks planned: "Nothing planned for today. That's okay too."
-- Completion feedback: quiet. Soft colour fill. No confetti, no streaks.
-- Empty states never imply failure.
+### Changes from v0.1
+- Subtitle changed: "Your life. Your metrics." (was too on-the-nose)
+- Screen 2 changed from framing statement to interactive tour
+- Onboarding reordered: categories first, then goals
+- SMART goals replaced with three guided prompts
+- NN vs Goal distinction screen added with relationship example
+- Goal tagging strongly encouraged, not mandatory
+- Multiple goals per task allowed
+- Estimated + actual duration, both optional
+- Check-in counter added (cumulative, not streak)
+- NN glow animation added
+- End-of-day reminder in Settings
+- Two-step delete confirmation
 
 ---
 
-## Files at this checkpoint
+## v0.1.0 — March 2026 (Initial prototype)
 
-| File | Description |
-|------|-------------|
-| `src/App.jsx` | Current prototype — all features, revised onboarding |
-| `docs/SlowBurnOS_PRD_v0.1.docx` | Product Requirements Document |
-| `docs/SlowBurnOS_ComponentSpec_v0.1.docx` | Component Spec & Data Schema |
-| `docs/design-directions-archive.jsx` | Dark vs Light comparison (archived) |
-| `docs/design-direction-b-refined.jsx` | Light direction with corrected user framing |
-| `docs/slow-burn-os-v1-pre-revision.jsx` | V1 before onboarding/copy revisions |
+- Original design decisions documented
+- Light palette, sage green, Newsreader serif
+- Four views: Today, Dump, The Week Ahead, Mirror
+- PRD v0.1 and Component Spec created
+- GitHub repo created: slow-burn-os (merlynramanan)
